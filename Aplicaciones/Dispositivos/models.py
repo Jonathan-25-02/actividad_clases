@@ -8,7 +8,7 @@ class Usuario(models.Model):
     email = models.EmailField(unique=True)
     telefono = models.CharField(max_length=20, blank=True, null=True)
     fecha_registro = models.DateTimeField(auto_now_add=True)
-    logo = models.ImageField(upload_to='logos_usuarios/', blank=True, null=True)
+    logo = models.FileField(upload_to='logos_usuarios/', blank=True, null=True)
     archivo = models.FileField(upload_to='archivos_usuarios/', blank=True, null=True)
 
     def __str__(self):
@@ -26,7 +26,7 @@ class Dispositivo(models.Model):
     modelo = models.CharField(max_length=100)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='dispositivos')
     fecha_autorizacion = models.DateField()
-    logo = models.ImageField(upload_to='logos_dispositivos/', blank=True, null=True)
+    logo = models.FileField(upload_to='logos_dispositivos/', blank=True, null=True)
     archivo = models.FileField(upload_to='archivos_dispositivos/', blank=True, null=True)
 
     def __str__(self):

@@ -25,8 +25,8 @@ def eliminarUsuario(request, id):
     return redirect('/usuarios')
 
 def editarUsuario(request, id):
-    usuario = Usuario.objects.get(id=id)
-    return render(request, "editarUsuario.html", {'usuario': usuario})
+    usuarioEditar = Usuario.objects.get(id=id)
+    return render(request, "editarUsuario.html", {'usuarioEditar': usuarioEditar})
 
 def procesarEdicionUsuario(request, id):
     usuario = Usuario.objects.get(id=id)
@@ -77,9 +77,9 @@ def eliminarDispositivo(request, id):
     return redirect('/dispositivos')
 
 def editarDispositivo(request, id):
-    dispositivo = Dispositivo.objects.get(id=id)
+    dispositivoEditar = Dispositivo.objects.get(id=id)
     usuarios = Usuario.objects.all()
-    return render(request, "editarDispositivo.html", {'dispositivo': dispositivo, 'usuarios': usuarios})
+    return render(request, "editarDispositivo.html", {'dispositivoEditar': dispositivoEditar, 'usuarios': usuarios})
 
 def procesarEdicionDispositivo(request, id):
     dispositivo = Dispositivo.objects.get(id=id)
