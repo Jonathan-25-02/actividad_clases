@@ -1,0 +1,78 @@
+{% extends './plantilla.html' %}
+{% block contenido %}
+<div class="row ">
+    <div class="col-md-3"> </div>
+    <br>
+    <div class="col-md-6 bg-light"> 
+        <h1>Nuevo Usuario</h1>
+
+        <form action="/guardarUsuario" enctype="multipart/form-data" method="post" id="frm_nuevo_usuario">
+            {% csrf_token %}
+            
+            <label for="nombre">Nombre completo:</label><br>
+            <input placeholder="Ingrese el nombre del usuario" class="form-control" type="text" name="nombre" id="nombre" required><br><br>
+
+            <label for="email">Correo electrónico:</label><br>
+            <input placeholder="Ingrese el correo" class="form-control" type="email" name="email" id="email" required><br><br>
+
+            <label for="telefono">Teléfono:</label><br>
+            <input placeholder="Ingrese el número" class="form-control" type="text" name="telefono" id="telefono"><br><br>
+
+            <label for="logo">Logotipo:</label>
+            <input type="file" name="logo" id="logo" class="form-control" required> <br>
+
+            <label for="archivo">Documento legal:</label>
+            <input type="file" name="archivo" id="archivo" class="form-control" required> <br>
+            <br>
+
+            <button class="btn btn-success" type="submit">Guardar</button>
+            <a class="btn btn-outline-danger" href="/usuario">Cancelar</a>
+
+            <script>
+                $("#frm_nuevo_usuario").validate({
+                    rules: {
+                        "nombre": {
+                            required: true,
+                            minlength: 3,
+                            maxlength: 100
+                        },
+                        "email": {
+                            required: true,
+                            email: true
+                        }
+                    },
+                    messages: {
+                        "nombre": {
+                            required: "Campo obligatorio",
+                            minlength: "Debe tener al menos 3 caracteres",
+                            maxlength: "Máximo 100 caracteres"
+                        },
+                        "email": {
+                            required: "Campo obligatorio",
+                            email: "Debe ingresar un correo válido"
+                        }
+                    }
+                });
+
+                $("#logo").fileinput({
+                    language: "es",
+                    allowedFileExtensions: ["png", "jpg", "jpeg"],
+                    showCaption: false,
+                    dropZoneEnabled: true,
+                    showClose: false
+                });
+
+                $("#archivo").fileinput({
+                    language: "es",
+                    allowedFileExtensions: ['pdf', 'doc', 'docx', 'txt'],
+                    showCaption: false,
+                    dropZoneEnabled: true,
+                    showClose: false
+                });
+            </script>
+
+        </form>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+{% endblock %}

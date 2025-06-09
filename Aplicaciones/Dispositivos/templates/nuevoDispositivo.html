@@ -1,0 +1,85 @@
+{% extends './plantilla.html' %}
+{% block contenido %}
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 bg-light">
+        <h1>Nuevo Dispositivo</h1>
+
+        <form action="/guardarDispositivo" enctype="multipart/form-data" method="post" id="frm_nuevo_dispositivo">
+            {% csrf_token %}
+
+            <label for="usuario">Usuario:</label><br>
+            <select name="usuario" id="usuario" class="form-control" required>
+                <option value="">Seleccione un usuario</option>
+                {% for u in usuarios %}
+                    <option value="{{ u.id }}">{{ u.nombre }}</option>
+                {% endfor %}
+            </select><br><br>
+
+            <label for="tipo">Tipo de Dispositivo:</label><br>
+            <select name="tipo" id="tipo" class="form-control" required>
+                <option value="">Seleccione</option>
+                <option value="Laptop">Laptop</option>
+                <option value="Smartphone">Smartphone</option>
+                <option value="Tablet">Tablet</option>
+                <option value="Otro">Otro</option>
+            </select><br><br>
+
+            <label for="sistema_operativo">Sistema Operativo:</label><br>
+            <input placeholder="Ej: Windows, Android, iOS" class="form-control" type="text" name="sistema_operativo" id="sistema_operativo" required><br><br>
+
+            <label for="modelo">Modelo:</label><br>
+            <input placeholder="Ej: Galaxy S21, Dell XPS 13" class="form-control" type="text" name="modelo" id="modelo" required><br><br>
+
+            <label for="fecha_autorizacion">Fecha de Autorización:</label><br>
+            <input type="date" class="form-control" name="fecha_autorizacion" id="fecha_autorizacion" required><br><br>
+
+            <label for="logo">Logotipo:</label>
+            <input type="file" name="logo" id="logo" class="form-control" required><br>
+
+            <label for="archivo">Documento:</label>
+            <input type="file" name="archivo" id="archivo" class="form-control" required><br>
+
+            <br>
+            <button class="btn btn-success" type="submit">Guardar</button>
+            <a class="btn btn-outline-danger" href="/dispositivo">Cancelar</a>
+        </form>
+
+        <script>
+            $("#frm_nuevo_dispositivo").validate({
+                rules: {
+                    "tipo": { required: true },
+                    "sistema_operativo": { required: true },
+                    "modelo": { required: true },
+                    "fecha_autorizacion": { required: true },
+                    "usuario": { required: true }
+                },
+                messages: {
+                    "tipo": { required: "Campo obligatorio" },
+                    "sistema_operativo": { required: "Campo obligatorio" },
+                    "modelo": { required: "Campo obligatorio" },
+                    "fecha_autorizacion": { required: "Campo obligatorio" },
+                    "usuario": { required: "Seleccione un usuario" }
+                }
+            });
+
+            $("#logo").fileinput({
+                language: "es",
+                allowedFileExtensions: ["png", "jpg", "jpeg"],
+                showCaption: false,
+                dropZoneEnabled: true,
+                showClose: false
+            });
+
+            $("#archivo").fileinput({
+                language: "es",
+                allowedFileExtensions: ['pdf', 'doc', 'docx', 'txt'],
+                showCaption: false,
+                dropZoneEnabled: true,
+                showClose: false
+            });
+        </script>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+{% endblock %}
