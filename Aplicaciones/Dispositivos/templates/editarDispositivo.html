@@ -1,0 +1,66 @@
+{% extends './plantilla.html' %}
+{% block contenido %}
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 bg-light">
+        <h1>Editar Dispositivo</h1>
+
+        <form action="/procesarEdicionDispositivo/{{ dispositivoEditar.id }}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label for="usuario">Usuario:</label><br>
+            <select name="usuario" id="usuario" class="form-control" required>
+                {% for u in usuarios %}
+                    <option value="{{ u.id }}" {% if u.id == dispositivoEditar.usuario.id %}selected{% endif %}>{{ u.nombre }}</option>
+                {% endfor %}
+            </select><br><br>
+
+            <label for="tipo">Tipo de Dispositivo:</label><br>
+            <select name="tipo" id="tipo" class="form-control" required>
+                <option value="">Seleccione</option>
+                <option value="Laptop" {% if dispositivoEditar.tipo == 'Laptop' %}selected{% endif %}>Laptop</option>
+                <option value="Smartphone" {% if dispositivoEditar.tipo == 'Smartphone' %}selected{% endif %}>Smartphone</option>
+                <option value="Tablet" {% if dispositivoEditar.tipo == 'Tablet' %}selected{% endif %}>Tablet</option>
+                <option value="Otro" {% if dispositivoEditar.tipo == 'Otro' %}selected{% endif %}>Otro</option>
+            </select><br><br>
+
+            <label for="sistema_operativo">Sistema Operativo:</label><br>
+            <input class="form-control" type="text" name="sistema_operativo" id="sistema_operativo" value="{{ dispositivoEditar.sistema_operativo }}"><br><br>
+
+            <label for="modelo">Modelo:</label><br>
+            <input class="form-control" type="text" name="modelo" id="modelo" value="{{ dispositivoEditar.modelo }}"><br><br>
+
+            <label for="fecha_autorizacion">Fecha de Autorización:</label><br>
+            <input class="form-control" type="date" name="fecha_autorizacion" id="fecha_autorizacion" value="{{ dispositivoEditar.fecha_autorizacion|date:'Y-m-d' }}"><br><br>
+
+            <label for="logo">Logotipo:</label><br>
+            <input type="file" name="logo" id="logo" class="form-control"><br>
+
+            <label for="archivo">Documento:</label><br>
+            <input type="file" name="archivo" id="archivo" class="form-control"><br>
+
+            <button class="btn btn-warning" type="submit"><i class="fa fa-pen"></i> Editar</button>
+            <a class="btn btn-outline-danger" href="/dispositivo"><i class="fa fa-times"></i> Cancelar</a>
+        </form>
+
+        <script>
+            $("#logo").fileinput({
+                language: "es",
+                allowedFileExtensions: ["png", "jpg", "jpeg"],
+                showCaption: false,
+                dropZoneEnabled: true,
+                showClose: false
+            });
+
+            $("#archivo").fileinput({
+                language: "es",
+                allowedFileExtensions: ['pdf', 'doc', 'docx', 'txt'],
+                showCaption: false,
+                dropZoneEnabled: true,
+                showClose: false
+            });
+        </script>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+{% endblock %}
