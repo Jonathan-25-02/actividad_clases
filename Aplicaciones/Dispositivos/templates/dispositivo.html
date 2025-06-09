@@ -1,0 +1,90 @@
+{% extends './plantilla.html' %}
+{% block contenido %}
+<br>
+<h1>Listado de Dispositivos</h1>
+<a href="/nuevoDispositivo" class="btn btn-primary">Agregar Dispositivo</a>
+
+<table class="table table-bordered table-striped table-hover" id="tbl_dispositivos">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Tipo</th>
+            <th>Sistema Operativo</th>
+            <th>Modelo</th>
+            <th>Fecha Autorización</th>
+            <th>Logotipo</th>
+            <th>Documento</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <script>
+            function eliminarDispositivo(id) {
+                Swal.fire({
+                    title: "CONFIRMACIÓN",
+                    text: "¿Estás seguro de eliminar este dispositivo?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Sí, eliminar"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/eliminarDispositivo/" + id;
+                    }
+                });
+            }
+
+            let table = new DataTable('#tbl_dispositivos', {
+                language: {
+                    "decimal": "",
+                    "emptyTable": "No hay datos disponibles",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+                    "infoEmpty": "Mostrando 0 a 0 de 0 entradas",
+                    "lengthMenu": "Mostrar _MENU_ entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "No se encontraron registros",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Último",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                }
+            });
+        </script>
+
+        {% for d in dispositivos %}
+        <tr>
+            <td>{{ d.id }}</td>
+            <td>{{ d.usuario.nombre }}</td>
+            <td>{{ d.tipo }}</td>
+            <td>{{ d.sistema_operativo }}</td>
+            <td>{{ d.modelo }}</td>
+            <td>{{ d.fecha_autorizacion }}</td>
+            <td>
+                {% if d.logo %}
+                    <img src="{{ d.logo.url }}" height="80px" alt="">
+                {% else %}
+                    Ninguno
+                {% endif %}
+            </td>
+            <td>
+                {% if d.archivo %}
+                    <a href="{{ d.archivo.url }}" download>{{ d.archivo.name }}</a>
+                {% else %}
+                    Ningún archivo
+                {% endif %}
+            </td>
+            <td>
+                <a href="/editarDispositivo/{{ d.id }}" class="btn btn-outline-warning"><i class="fa fa-pen"></i></a>
+                <a href="#" onclick="eliminarDispositivo('{{ d.id }}');" class="btn btn-outline-danger"><i class="fa fa-trash"></i></a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
