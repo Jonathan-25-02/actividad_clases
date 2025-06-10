@@ -4,13 +4,13 @@
 <h1>Listado de Usuarios</h1>
 <a href="/nuevoUsuario" class="btn btn-primary">Agregar Usuario</a>
 
-<table class="table table-bordered table-striped table-hover" id="tbl_usuarios">
+<table class="table table-bordered table-hover" id="tbl_usuarios">
     <thead>
         <tr>
             <th>ID</th>
             <th>Nombre</th>
             <th>Correo</th>
-            <th>Logotipo</th>
+            <th>Imagen</th>
             <th>Documento</th>
             <th>Acciones</th>
         </tr>
@@ -30,7 +30,8 @@
             </td>
             <td>
                 {% if usuario.archivo %}
-                    <a href="{{ usuario.archivo.url }}" download>{{ usuario.archivo.name }}</a>
+                    <a href="{{ usuario.archivo.url }}" class="btn btn-primary" target="_blank">Ver PDF</a>
+                    <a href="{{ usuario.archivo.url }}" class="btn btn-primary" download>Descargar PDF</a>
                 {% else %}
                     Ningún archivo
                 {% endif %}
