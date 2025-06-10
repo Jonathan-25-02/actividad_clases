@@ -1,27 +1,37 @@
 {% extends './plantilla.html' %}
 {% block contenido %}
 <div class="row">
-    <div class="col-md-3"></div>
-    <div class="col-md-6 bg-light">
-        <h1>Editar Usuario</h1>
+    <div class="col-md-12 bg-light">
+        <h1 class="text-center">Editar Usuario</h1><br><br>
 
         <form action="/procesarEdicionUsuario/{{ usuarioEditar.id }}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
+            <div class="row g-3">
+                <div class="col-md-12">
+                    <div class="form-floating mb-4">
+                        <input class="form-control border-0" type="text" name="nombre" id="nombre" value="{{ usuarioEditar.nombre }}">
+                        <label for="nombre">Nombre completo:</label>
+                    </div>
+                </div>
 
-            <label for="nombre">Nombre:</label><br>
-            <input class="form-control" type="text" name="nombre" id="nombre" value="{{ usuarioEditar.nombre }}"><br><br>
+                <div class="col-md-12">
+                    <div class="form-floating mb-4">
+                        <input class="form-control border-0" type="email" name="email" id="email" value="{{ usuarioEditar.email }}">
+                        <label for="email">Correo electrónico:</label>
+                    </div>
+                </div>
 
-            <label for="email">Correo Electrónico:</label><br>
-            <input class="form-control" type="email" name="email" id="email" value="{{ usuarioEditar.email }}"><br><br>
+                <label for="logo">Logotipo:</label>
+                <input type="file" name="logo" id="logo" class="form-control border-0"> <br>
 
-            <label for="logo">Logotipo:</label><br>
-            <input type="file" name="logo" id="logo" class="form-control"><br>
-
-            <label for="archivo">Documento:</label><br>
-            <input type="file" name="archivo" id="archivo" class="form-control"><br>
-
-            <button class="btn btn-warning" type="submit"><i class="fa fa-pen"></i> Editar</button>
-            <a class="btn btn-outline-danger" href="/usuarios"><i class="fa fa-times"></i> Cancelar</a>
+                <label for="archivo">Documento legal (PDF):</label>
+                <input type="file" name="archivo" id="archivo" class="form-control border-0"> <br>
+                <br><br>
+                <div class="col-md-12 text-end">
+                    <button class="btn btn-success" type="submit"><i class="fa fa-pen"></i> Actualizar</button>
+                    <a class="btn btn-outline-danger" href="/usuarios"><i class="fa fa-times"></i> Cancelar</a>
+                </div>
+            </div>
 
         </form>
 
@@ -31,15 +41,21 @@
                 allowedFileExtensions: ["png", "jpg", "jpeg"],
                 showCaption: false,
                 dropZoneEnabled: true,
-                showClose: false
+                showClose: false,
+                showUpload: false,
+                showCancel: false,
+                maxFileCount: 1
             });
 
             $("#archivo").fileinput({
                 language: "es",
-                allowedFileExtensions: ['pdf', 'doc', 'docx', 'txt'],
+                allowedFileExtensions: ['pdf'],
                 showCaption: false,
                 dropZoneEnabled: true,
-                showClose: false
+                showClose: false,
+                showUpload: false,
+                showCancel: false,
+                maxFileCount: 1
             });
         </script>
     </div>

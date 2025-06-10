@@ -15,7 +15,6 @@ def guardarUsuario(request):
     email = request.POST["email"]
     logo = request.FILES.get("logo")
     archivo = request.FILES.get("archivo")
-
     Usuario.objects.create(nombre=nombre, email=email, logo=logo, archivo=archivo)
     messages.success(request, "Usuario guardado exitosamente")
     return redirect('/usuarios')
@@ -38,7 +37,7 @@ def procesarEdicionUsuario(request, id):
     messages.success(request, "Usuario actualizado exitosamente")
     return redirect('/usuarios')
 
- # asumiendo que Dispositivo tiene FK a Usuario
+# asumiendo que Dispositivo tiene FK a Usuario
 
 def dispositivos(request):
     listadoDispositivos = Dispositivo.objects.all()

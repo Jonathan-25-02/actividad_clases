@@ -22,13 +22,6 @@
                     </div>
                 </div>
 
-                <div class="col-md-12">
-                    <div class="form-floating mb-4">
-                        <input placeholder="Ingrese el número" class="form-control border-0" type="number" name="telefono" id="telefono">
-                        <label for="telefono">Teléfono:</label>
-                    </div>
-                </div>
-
                 <label for="logo">Logotipo:</label>
                 <input type="file" name="logo" id="logo" class="form-control border-0" required> <br>
 
@@ -56,11 +49,6 @@
             "email": {
                 required: true,
                 email: true
-            },
-            "telefono":{
-                required: true,
-                minlength: 10,
-                maxlength: 10
             }
         },
         messages: {
@@ -72,12 +60,6 @@
             "email": {
                 required: "Campo obligatorio",
                 email: "Debe ingresar un correo válido"
-            },
-            "telefono":{
-                Number: "Solo se aceptan números",
-                required: "Campo obligatorio",
-                minlength: "Debe ingresar minimo 10 caracteres",
-                maxlength: "Debe ingresar maximo 10 caracteres"
             }
         },
         errorPlacement: function (error, element) {
