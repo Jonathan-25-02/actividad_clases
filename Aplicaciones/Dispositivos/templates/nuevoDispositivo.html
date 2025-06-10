@@ -1,48 +1,69 @@
 {% extends './plantilla.html' %}
 {% block contenido %}
 <div class="row">
-    <div class="col-md-3"></div>
-    <div class="col-md-6 bg-light">
-        <h1>Nuevo Dispositivo</h1>
+    <div class="col-md-12 bg-light">
+        <h1 class="text-center">Nuevo Dispositivo</h1><br>
 
         <form action="/guardarDispositivo" enctype="multipart/form-data" method="post" id="frm_nuevo_dispositivo">
             {% csrf_token %}
+            <div class="row g-3">
+                <div class="col-md-12">
+                    <div class="form-floating mb-4">
+                        <select name="usuario" id="usuario" class="form-select" required>
+                            <option value="">Seleccione un usuario</option>
+                            {% for u in usuarios %}
+                                <option value="{{ u.id }}">{{ u.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="email">Usuario:</label>
+                    </div>
+                </div>
 
-            <label for="usuario">Usuario:</label><br>
-            <select name="usuario" id="usuario" class="form-control" required>
-                <option value="">Seleccione un usuario</option>
-                {% for u in usuarios %}
-                    <option value="{{ u.id }}">{{ u.nombre }}</option>
-                {% endfor %}
-            </select><br><br>
+                <div class="col-md-12">
+                    <div class="form-floating mb-4">
+                        <select name="tipo" id="tipo" class="form-select" required>
+                            <option value="">Seleccione un dispositivo</option>
+                            <option value="Laptop">Laptop</option>
+                            <option value="Smartphone">Smartphone</option>
+                            <option value="Tablet">Tablet</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                        <label for="tipo">Tipo de Dispositivo:</label>
+                    </div>
+                </div>
 
-            <label for="tipo">Tipo de Dispositivo:</label><br>
-            <select name="tipo" id="tipo" class="form-control" required>
-                <option value="">Seleccione</option>
-                <option value="Laptop">Laptop</option>
-                <option value="Smartphone">Smartphone</option>
-                <option value="Tablet">Tablet</option>
-                <option value="Otro">Otro</option>
-            </select><br><br>
+                <div class="col-md-12">
+                    <div class="form-floating mb-4">
+                        <input placeholder="Ej: Windows, Android, iOS" class="form-control border-0" type="text" name="sistema_operativo" id="sistema_operativo" required>
+                        <label for="sistema_operativo">Sistema Operativo:</label>
+                    </div>
+                </div>
 
-            <label for="sistema_operativo">Sistema Operativo:</label><br>
-            <input placeholder="Ej: Windows, Android, iOS" class="form-control" type="text" name="sistema_operativo" id="sistema_operativo" required><br><br>
+                <div class="col-md-12">
+                    <div class="form-floating mb-4">
+                        <input placeholder="Ej: Galaxy S21, Dell XPS 13" class="form-control border-0" type="text" name="modelo" id="modelo" required>
+                        <label for="modelo">Modelo:</label>
+                    </div>
+                </div>
 
-            <label for="modelo">Modelo:</label><br>
-            <input placeholder="Ej: Galaxy S21, Dell XPS 13" class="form-control" type="text" name="modelo" id="modelo" required><br><br>
+                <div class="col-md-12">
+                    <div class="form-floating mb-4">
+                        <input type="date" class="form-control border-0" name="fecha_autorizacion" id="fecha_autorizacion" required>
+                        <label for="fecha_autorizacion">Fecha de Autorización:</label>
+                    </div>
+                </div>
 
-            <label for="fecha_autorizacion">Fecha de Autorización:</label><br>
-            <input type="date" class="form-control" name="fecha_autorizacion" id="fecha_autorizacion" required><br><br>
+                <label for="logo">Logotipo:</label>
+                <input type="file" name="logo" id="logo" class="form-control border-0" required> <br>
 
-            <label for="logo">Logotipo:</label>
-            <input type="file" name="logo" id="logo" class="form-control" required><br>
-
-            <label for="archivo">Documento:</label>
-            <input type="file" name="archivo" id="archivo" class="form-control" required><br>
-
-            <br>
-            <button class="btn btn-success" type="submit">Guardar</button>
-            <a class="btn btn-outline-danger" href="/dispositivos">Cancelar</a>
+                <label for="archivo">Documento legal (PDF):</label>
+                <input type="file" name="archivo" id="archivo" class="form-control border-0" required> <br>
+                <br><br>
+                <div class="col-md-12 text-end">
+                    <button class="btn btn-success" type="submit">Guardar</button>
+                    <a class="btn btn-outline-danger" href="/usuarios">Cancelar</a>
+                </div>
+            </div>
         </form>
 
         <script>
@@ -59,7 +80,14 @@
                     "sistema_operativo": { required: "Campo obligatorio" },
                     "modelo": { required: "Campo obligatorio" },
                     "fecha_autorizacion": { required: "Campo obligatorio" },
-                    "usuario": { required: "Seleccione un usuario" }
+                    "usuario": { required: "Campo obligatorio" }
+                },
+                errorPlacement: function (error, element) {
+                    if (element.closest('.form-floating').length) {
+                        error.insertAfter(element.closest('.form-floating')); // inserta después del contenedor
+                    } else {
+                        error.insertAfter(element);
+                    }
                 }
             });
 
@@ -68,7 +96,10 @@
                 allowedFileExtensions: ["png", "jpg", "jpeg"],
                 showCaption: false,
                 dropZoneEnabled: true,
-                showClose: false
+                showClose: false,
+                showUpload: false,
+                showCancel: false,
+                maxFileCount: 1
             });
 
             $("#archivo").fileinput({
@@ -76,7 +107,10 @@
                 allowedFileExtensions: ['pdf', 'doc', 'docx', 'txt'],
                 showCaption: false,
                 dropZoneEnabled: true,
-                showClose: false
+                showClose: false,
+                showUpload: false,
+                showCancel: false,
+                maxFileCount: 1
             });
         </script>
     </div>
