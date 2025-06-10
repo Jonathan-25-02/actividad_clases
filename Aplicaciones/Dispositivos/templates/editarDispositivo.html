@@ -1,37 +1,57 @@
 {% extends './plantilla.html' %}
 {% block contenido %}
 <div class="row">
-    <div class="col-md-3"></div>
-    <div class="col-md-6 bg-light">
-        <h1>Editar Dispositivo</h1>
+    <div class="col-md-12 bg-light">
+        <h1 class="text-center">Editar Dispositivo</h1><br>
 
-        <form action="/procesarEdicionDispositivo/{{ dispositivoEditar.id }}" method="post" enctype="multipart/form-data">
+        <form action="/procesarEdicionDispositivo/{{ dispositivoEditar.id }}" id="frm_editar_dispositivo" method="post" enctype="multipart/form-data">
             {% csrf_token %}
+            <div class="row g-3">
+                <div class="col-md-12">
+                    <div class="form-floating mb-4">
+                        <select name="usuario" id="usuario" class="form-select" required>
+                            {% for u in usuarios %}
+                                <option value="{{ u.id }}" {% if u.id == dispositivoEditar.usuario.id %}selected{% endif %}>{{ u.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="email">Usuario:</label>
+                    </div>
+                </div>
+            </div>
 
-            <label for="usuario">Usuario:</label><br>
-            <select name="usuario" id="usuario" class="form-control" required>
-                {% for u in usuarios %}
-                    <option value="{{ u.id }}" {% if u.id == dispositivoEditar.usuario.id %}selected{% endif %}>{{ u.nombre }}</option>
-                {% endfor %}
-            </select><br><br>
+            <div class="col-md-12">
+                <div class="form-floating mb-4">
+                    <select name="tipo" id="tipo" class="form-select" required>
+                        <option value="" disabled>Seleccione un dispositivo</option>
+                        <option value="Laptop" {% if dispositivoEditar.tipo == 'Laptop' %}selected{% endif %}>Laptop</option>
+                        <option value="Smartphone" {% if dispositivoEditar.tipo == 'Smartphone' %}selected{% endif %}>Smartphone</option>
+                        <option value="Tablet" {% if dispositivoEditar.tipo == 'Tablet' %}selected{% endif %}>Tablet</option>
+                        <option value="Otro" {% if dispositivoEditar.tipo == 'Otro' %}selected{% endif %}>Otro</option>
+                    </select>
+                    <label for="tipo">Tipo de Dispositivo:</label>
+                </div>
+            </div>
 
-            <label for="tipo">Tipo de Dispositivo:</label><br>
-            <select name="tipo" id="tipo" class="form-control" required>
-                <option value="">Seleccione</option>
-                <option value="Laptop" {% if dispositivoEditar.tipo == 'Laptop' %}selected{% endif %}>Laptop</option>
-                <option value="Smartphone" {% if dispositivoEditar.tipo == 'Smartphone' %}selected{% endif %}>Smartphone</option>
-                <option value="Tablet" {% if dispositivoEditar.tipo == 'Tablet' %}selected{% endif %}>Tablet</option>
-                <option value="Otro" {% if dispositivoEditar.tipo == 'Otro' %}selected{% endif %}>Otro</option>
-            </select><br><br>
+            <div class="col-md-12">
+                <div class="form-floating mb-4">
+                    <input class="form-control border-0" type="text" name="sistema_operativo" id="sistema_operativo" value="{{ dispositivoEditar.sistema_operativo }}">
+                    <label for="sistema_operativo">Sistema Operativo:</label>
+                </div>
+            </div>
 
-            <label for="sistema_operativo">Sistema Operativo:</label><br>
-            <input class="form-control" type="text" name="sistema_operativo" id="sistema_operativo" value="{{ dispositivoEditar.sistema_operativo }}"><br><br>
+            <div class="col-md-12">
+                <div class="form-floating mb-4">
+                    <input class="form-control border-0" type="text" name="modelo" id="modelo" value="{{ dispositivoEditar.modelo }}">
+                    <label for="modelo">Modelo:</label><br>
+                </div>
+            </div>
 
-            <label for="modelo">Modelo:</label><br>
-            <input class="form-control" type="text" name="modelo" id="modelo" value="{{ dispositivoEditar.modelo }}"><br><br>
-
-            <label for="fecha_autorizacion">Fecha de Autorización:</label><br>
-            <input class="form-control" type="date" name="fecha_autorizacion" id="fecha_autorizacion" value="{{ dispositivoEditar.fecha_autorizacion|date:'Y-m-d' }}"><br><br>
+            <div class="col-md-12">
+                <div class="form-floating mb-4">
+                    <input class="form-control border-0" type="date" name="fecha_autorizacion" id="fecha_autorizacion" value="{{ dispositivoEditar.fecha_autorizacion|date:'Y-m-d' }}">
+                    <label for="fecha_autorizacion">Fecha de Autorización:</label>
+                </div>
+            </div>
 
             <label for="logo">Logotipo:</label><br>
             <input type="file" name="logo" id="logo" class="form-control"><br>
@@ -39,28 +59,58 @@
             <label for="archivo">Documento:</label><br>
             <input type="file" name="archivo" id="archivo" class="form-control"><br>
 
-            <button class="btn btn-warning" type="submit"><i class="fa fa-pen"></i> Editar</button>
-            <a class="btn btn-outline-danger" href="/dispositivos"><i class="fa fa-times"></i> Cancelar</a>
+            <div class="col-md-12 text-end">
+                <button class="btn btn-warning" type="submit"><i class="fa fa-pen"></i> Actualizar</button>
+                <a class="btn btn-outline-danger" href="/dispositivos"><i class="fa fa-times"></i> Cancelar</a>
+            </div>
+
         </form>
-
-        <script>
-            $("#logo").fileinput({
-                language: "es",
-                allowedFileExtensions: ["png", "jpg", "jpeg"],
-                showCaption: false,
-                dropZoneEnabled: true,
-                showClose: false
-            });
-
-            $("#archivo").fileinput({
-                language: "es",
-                allowedFileExtensions: ['pdf', 'doc', 'docx', 'txt'],
-                showCaption: false,
-                dropZoneEnabled: true,
-                showClose: false
-            });
-        </script>
     </div>
-    <div class="col-md-3"></div>
 </div>
+<script>
+    $("#frm_editar_dispositivo").validate({
+        rules: {
+            "tipo": { required: true },
+            "sistema_operativo": { required: true },
+            "modelo": { required: true },
+            "fecha_autorizacion": { required: true },
+            "usuario": { required: true }
+        },
+        messages: {
+            "tipo": { required: "Campo obligatorio" },
+            "sistema_operativo": { required: "Campo obligatorio" },
+            "modelo": { required: "Campo obligatorio" },
+            "fecha_autorizacion": { required: "Campo obligatorio" },
+            "usuario": { required: "Campo obligatorio" }
+        },
+        errorPlacement: function (error, element) {
+            if (element.closest('.form-floating').length) {
+                error.insertAfter(element.closest('.form-floating')); // inserta después del contenedor
+            } else {
+                error.insertAfter(element);
+            }
+        }
+    });
+    $("#logo").fileinput({
+        language: "es",
+        allowedFileExtensions: ["png", "jpg", "jpeg"],
+        showCaption: false,
+        dropZoneEnabled: true,
+        showClose: false,
+        showUpload: false,
+        showCancel: false,
+        maxFileCount: 1
+    });
+
+    $("#archivo").fileinput({
+        language: "es",
+        allowedFileExtensions: ['pdf'],
+        showCaption: false,
+        dropZoneEnabled: true,
+        showClose: false,
+        showUpload: false,
+        showCancel: false,
+        maxFileCount: 1
+    });
+</script>
 {% endblock %}

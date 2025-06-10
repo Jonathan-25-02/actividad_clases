@@ -4,7 +4,7 @@
     <div class="col-md-12 bg-light">
         <h1 class="text-center">Editar Usuario</h1><br><br>
 
-        <form action="/procesarEdicionUsuario/{{ usuarioEditar.id }}" method="post" enctype="multipart/form-data">
+        <form action="/procesarEdicionUsuario/{{ usuarioEditar.id }}" id="frm_editar_usuario" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="row g-3">
                 <div class="col-md-12">
@@ -34,31 +34,60 @@
             </div>
 
         </form>
-
-        <script>
-            $("#logo").fileinput({
-                language: "es",
-                allowedFileExtensions: ["png", "jpg", "jpeg"],
-                showCaption: false,
-                dropZoneEnabled: true,
-                showClose: false,
-                showUpload: false,
-                showCancel: false,
-                maxFileCount: 1
-            });
-
-            $("#archivo").fileinput({
-                language: "es",
-                allowedFileExtensions: ['pdf'],
-                showCaption: false,
-                dropZoneEnabled: true,
-                showClose: false,
-                showUpload: false,
-                showCancel: false,
-                maxFileCount: 1
-            });
-        </script>
     </div>
-    <div class="col-md-3"></div>
 </div>
+<script>
+    $("#frm_editar_usuario").validate({
+        rules: {
+            "nombre": {
+                required: true,
+                minlength: 3,
+                maxlength: 50
+            },
+            "email": {
+                required: true,
+                email: true
+            }
+        },
+        messages: {
+            "nombre": {
+                required: "Campo obligatorio",
+                minlength: "Debe tener al menos 3 caracteres",
+                maxlength: "Máximo 50 caracteres"
+            },
+            "email": {
+                required: "Campo obligatorio",
+                email: "Debe ingresar un correo válido"
+            }
+        },
+        errorPlacement: function (error, element) {
+            if (element.closest('.form-floating').length) {
+                error.insertAfter(element.closest('.form-floating')); // inserta después del contenedor
+            } else {
+                error.insertAfter(element);
+            }
+        }
+    });
+    $("#logo").fileinput({
+        language: "es",
+        allowedFileExtensions: ["png", "jpg", "jpeg"],
+        showCaption: false,
+        dropZoneEnabled: true,
+        showClose: false,
+        showUpload: false,
+        showCancel: false,
+        maxFileCount: 1
+    });
+
+    $("#archivo").fileinput({
+        language: "es",
+        allowedFileExtensions: ['pdf'],
+        showCaption: false,
+        dropZoneEnabled: true,
+        showClose: false,
+        showUpload: false,
+        showCancel: false,
+        maxFileCount: 1
+    });
+</script>
 {% endblock %}

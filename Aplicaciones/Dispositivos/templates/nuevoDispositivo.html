@@ -22,7 +22,7 @@
                 <div class="col-md-12">
                     <div class="form-floating mb-4">
                         <select name="tipo" id="tipo" class="form-select" required>
-                            <option value="">Seleccione un dispositivo</option>
+                            <option value="" disabled>Seleccione un dispositivo</option>
                             <option value="Laptop">Laptop</option>
                             <option value="Smartphone">Smartphone</option>
                             <option value="Tablet">Tablet</option>
@@ -61,59 +61,57 @@
                 <br><br>
                 <div class="col-md-12 text-end">
                     <button class="btn btn-success" type="submit">Guardar</button>
-                    <a class="btn btn-outline-danger" href="/usuarios">Cancelar</a>
+                    <a class="btn btn-outline-danger" href="/dispositivos">Cancelar</a>
                 </div>
             </div>
         </form>
-
-        <script>
-            $("#frm_nuevo_dispositivo").validate({
-                rules: {
-                    "tipo": { required: true },
-                    "sistema_operativo": { required: true },
-                    "modelo": { required: true },
-                    "fecha_autorizacion": { required: true },
-                    "usuario": { required: true }
-                },
-                messages: {
-                    "tipo": { required: "Campo obligatorio" },
-                    "sistema_operativo": { required: "Campo obligatorio" },
-                    "modelo": { required: "Campo obligatorio" },
-                    "fecha_autorizacion": { required: "Campo obligatorio" },
-                    "usuario": { required: "Campo obligatorio" }
-                },
-                errorPlacement: function (error, element) {
-                    if (element.closest('.form-floating').length) {
-                        error.insertAfter(element.closest('.form-floating')); // inserta después del contenedor
-                    } else {
-                        error.insertAfter(element);
-                    }
-                }
-            });
-
-            $("#logo").fileinput({
-                language: "es",
-                allowedFileExtensions: ["png", "jpg", "jpeg"],
-                showCaption: false,
-                dropZoneEnabled: true,
-                showClose: false,
-                showUpload: false,
-                showCancel: false,
-                maxFileCount: 1
-            });
-
-            $("#archivo").fileinput({
-                language: "es",
-                allowedFileExtensions: ['pdf', 'doc', 'docx', 'txt'],
-                showCaption: false,
-                dropZoneEnabled: true,
-                showClose: false,
-                showUpload: false,
-                showCancel: false,
-                maxFileCount: 1
-            });
-        </script>
     </div>
-    <div class="col-md-3"></div>
 </div>
+<script>
+    $("#frm_nuevo_dispositivo").validate({
+        rules: {
+            "tipo": { required: true },
+            "sistema_operativo": { required: true },
+            "modelo": { required: true },
+            "fecha_autorizacion": { required: true },
+            "usuario": { required: true }
+        },
+        messages: {
+            "tipo": { required: "Campo obligatorio" },
+            "sistema_operativo": { required: "Campo obligatorio" },
+            "modelo": { required: "Campo obligatorio" },
+            "fecha_autorizacion": { required: "Campo obligatorio" },
+            "usuario": { required: "Campo obligatorio" }
+        },
+        errorPlacement: function (error, element) {
+            if (element.closest('.form-floating').length) {
+                error.insertAfter(element.closest('.form-floating')); // inserta después del contenedor
+            } else {
+                error.insertAfter(element);
+            }
+        }
+    });
+
+    $("#logo").fileinput({
+        language: "es",
+        allowedFileExtensions: ["png", "jpg", "jpeg"],
+        showCaption: false,
+        dropZoneEnabled: true,
+        showClose: false,
+        showUpload: false,
+        showCancel: false,
+        maxFileCount: 1
+    });
+
+    $("#archivo").fileinput({
+        language: "es",
+        allowedFileExtensions: ['pdf', 'doc', 'docx', 'txt'],
+        showCaption: false,
+        dropZoneEnabled: true,
+        showClose: false,
+        showUpload: false,
+        showCancel: false,
+        maxFileCount: 1
+    });
+</script>
 {% endblock %}
